@@ -6,18 +6,31 @@ import enums.Enums.*;
 public class Carta {
     private Numeros numero;
     private Palos palo;
+    private Integer puntos;
 
     public Carta(Numeros numero, Palos palo) {
         this.numero = numero;
         this.palo = palo;
+        this.puntos = switch (numero.toString()) {
+            case "AS" -> 11;
+            case "TRES" -> 10;
+            case "SOTA" -> 2;
+            case "CABALLO" -> 3;
+            case "REY" -> 4;
+            default -> 0;
+        };
     }
 
-    public Numeros getNumero() {
-        return numero;
+    public String getNumero() {
+        return numero.toString().toLowerCase();
     }
 
-    public Palos getPalo() {
-        return palo;
+    public String getPalo() {
+        return palo.toString().toLowerCase();
+    }
+
+    public Integer getPuntos() {
+        return puntos;
     }
 
     public static Comparator<Carta> comparar() {
@@ -25,12 +38,12 @@ public class Carta {
     }
 
     public boolean equals(Carta c) {
-        return (this.palo).equals(c.getPalo());
+        return (this.getPalo()).equals(c.getPalo());
     }
 
     @Override
     public String toString() {
-        return this.numero.toString().toLowerCase() + " de " + this.palo.toString().toLowerCase();
+        return this.getNumero() + " de " + this.getPalo();
     }
 
 }

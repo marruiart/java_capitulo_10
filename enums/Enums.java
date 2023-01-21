@@ -15,7 +15,7 @@ public class Enums {
     }
 
     public enum Numeros {
-        UNO, DOS, TRES, CUATRO, CINCO, SEIS, SIETE, SOTA, CABALLO, REY;
+        AS, DOS, TRES, CUATRO, CINCO, SEIS, SIETE, SOTA, CABALLO, REY;
 
         public static Numeros getRandom() {
             Random random = new Random();
