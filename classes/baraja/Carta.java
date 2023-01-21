@@ -1,8 +1,9 @@
 package classes.baraja;
 
+import java.util.Comparator;
 import enums.Enums.*;
 
-public class Carta implements Comparable<Carta> {
+public class Carta {
     private Numeros numero;
     private Palos palo;
 
@@ -19,9 +20,8 @@ public class Carta implements Comparable<Carta> {
         return palo;
     }
 
-    @Override
-    public int compareTo(Carta c) {
-        return (this.palo).compareTo(c.getPalo());
+    public static Comparator<Carta> comparar() {
+        return Comparator.comparing(Carta::getPalo).thenComparing(Carta::getNumero);
     }
 
     public boolean equals(Carta c) {
