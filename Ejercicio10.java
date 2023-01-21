@@ -44,5 +44,6 @@ public class Ejercicio10 {
             else
                 System.out.println("La palabra no está en el diccionario");
         } while (!p.equals("aaa"));
+        s.close();
     }
 }
