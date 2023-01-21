@@ -32,5 +32,7 @@ public class Ejercicio03 {
         System.out.println("\nArrayList ordenado: ");
         for (int n : nums)
             System.out.print(n + " ");
+        s.close();
+
     }
 }

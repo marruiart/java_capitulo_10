@@ -45,5 +45,6 @@ public class Ejercicio06 {
         } while (intentos <= 3 && !acceso);
         if (!acceso)
             System.out.println("Lo siento, no tiene acceso al área restringida");
+        s.close();
     }
 }
