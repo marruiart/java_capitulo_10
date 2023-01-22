@@ -24,4 +24,8 @@ public class Enums {
         }
     }
 
+    public enum MovimientosBanco {
+        INGRESO, CARGO, TRANSFERENCIA;
+    }
+
 }
