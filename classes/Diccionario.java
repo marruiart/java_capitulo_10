@@ -1,6 +1,6 @@
 package classes;
 
-import java.util.HashMap;
+import java.util.*;
 
 public class Diccionario {
     public static HashMap<String, String> entradas = new HashMap<String, String>();
@@ -25,5 +25,11 @@ public class Diccionario {
         entradas.put("policía", "police");
         entradas.put("pasaporte", "passport");
         entradas.put("ordenador", "computer");
+    }
+
+    public static Map.Entry<String, String> entradaAleatoria() {
+        List<Map.Entry<String, String>> entrada = new ArrayList<Map.Entry<String, String>>(
+                Diccionario.entradas.entrySet());
+        return entrada.get((int) (Math.random() * entrada.size()));
     }
 }
