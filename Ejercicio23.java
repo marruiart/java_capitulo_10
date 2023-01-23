@@ -1,6 +1,3 @@
-import java.util.HashMap;
-import java.util.Map;
-
 import classes.ajedrez.Ajedrez;
 import classes.ajedrez.Pieza;
 import enums.Enums.Piezas;

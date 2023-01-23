@@ -1,6 +1,5 @@
 package classes.ajedrez;
 
-import java.util.HashMap;
 import enums.Enums.Piezas;
 
 public class Pieza {
