@@ -37,13 +37,13 @@ public class Ejercicio10 {
         diccionario.put("ordenador", "computer");
 
         do {
-            System.out.print("Introduzca una palabra en español ('aaa' para salir): ");
+            System.out.print("Introduzca una palabra en español ('salir' para salir): ");
             p = s.next();
             if (diccionario.containsKey(p))
                 System.out.printf("'%s' en inglés se dice '%s'\n", p, diccionario.get(p));
             else
                 System.out.println("La palabra no está en el diccionario");
-        } while (!p.equals("aaa"));
+        } while (!p.equals("salir"));
         s.close();
     }
 }
