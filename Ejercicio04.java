@@ -15,7 +15,7 @@ public class Ejercicio04 {
         ArrayList<String> palabras = new ArrayList<String>();
 
         for (int i = 0; i < 10; i++) {
-            System.out.print("Introduce un número: ");
+            System.out.print("Introduce una palabra: ");
             try {
                 palabras.add(s.next());
             } catch (Exception e) {
