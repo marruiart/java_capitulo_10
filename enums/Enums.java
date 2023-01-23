@@ -28,4 +28,8 @@ public class Enums {
         INGRESO, CARGO, TRANSFERENCIA;
     }
 
+    public enum Piezas {
+        REY, REINA, TORRE, ALFIL, CABALLO, PEON;
+    }
+
 }
