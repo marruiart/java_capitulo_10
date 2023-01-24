@@ -15,11 +15,15 @@ public class Ejercicio03 {
         ArrayList<Integer> nums = new ArrayList<Integer>();
 
         for (int i = 0; i < 10; i++) {
+            boolean added = false;
             System.out.print("Introduce un número: ");
             try {
-                nums.add(s.nextInt());
+                added = nums.add(Integer.parseInt(s.nextLine()));
             } catch (Exception e) {
                 System.out.println(e.getMessage());
+            } finally {
+                if (!added)
+                    System.out.println("Se ha producido un error");
             }
         }
 
