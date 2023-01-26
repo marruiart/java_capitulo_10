@@ -17,9 +17,10 @@ public class Ejercicio11 {
         String r;
         int aciertos = 0;
         HashMap<String, String> entradas = new HashMap<String, String>();
+        Diccionario diccionario = new Diccionario();
 
         while (entradas.size() < 5) {
-            Map.Entry<String, String> e = Diccionario.entradaAleatoria();
+            Map.Entry<String, String> e = diccionario.entradaAleatoria();
             entradas.put(e.getKey(), e.getValue());
         }
 

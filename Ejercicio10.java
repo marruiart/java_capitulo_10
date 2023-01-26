@@ -14,13 +14,14 @@ import classes.Diccionario;
 public class Ejercicio10 {
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
+        Diccionario diccionario = new Diccionario();
         String p;
 
         do {
             System.out.print("Introduzca una palabra en español ('salir' para salir): ");
             p = s.next();
-            if (Diccionario.entradas.containsKey(p))
-                System.out.printf("'%s' en inglés se dice '%s'\n", p, Diccionario.entradas.get(p));
+            if (diccionario.entradas.containsKey(p))
+                System.out.printf("'%s' en inglés se dice '%s'\n", p, diccionario.entradas.get(p));
             else
                 System.out.println("La palabra no está en el diccionario.entradas");
         } while (!p.equals("salir"));

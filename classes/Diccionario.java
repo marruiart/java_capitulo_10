@@ -3,8 +3,9 @@ package classes;
 import java.util.*;
 
 public class Diccionario {
-    public static HashMap<String, String> entradas = new HashMap<String, String>();
-    static {
+    public HashMap<String, String> entradas = new HashMap<String, String>();
+
+    public Diccionario() {
         entradas.put("hola", "hello");
         entradas.put("adiós", "goodbye");
         entradas.put("por favor", "please");
@@ -27,9 +28,9 @@ public class Diccionario {
         entradas.put("ordenador", "computer");
     }
 
-    public static Map.Entry<String, String> entradaAleatoria() {
-        List<Map.Entry<String, String>> entrada = new ArrayList<Map.Entry<String, String>>(
-                Diccionario.entradas.entrySet());
-        return entrada.get((int) (Math.random() * entrada.size()));
+    public Map.Entry<String, String> entradaAleatoria() {
+        ArrayList<Map.Entry<String, String>> entrada = new ArrayList<>(this.entradas.entrySet());
+        int i = (int) (Math.random() * entrada.size());
+        return entrada.get(i);
     }
 }
