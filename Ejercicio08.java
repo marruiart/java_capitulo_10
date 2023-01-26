@@ -12,14 +12,10 @@ import classes.baraja.*;
 public class Ejercicio08 {
     public static void main(String[] args) {
         Baraja baraja = new Baraja();
-        ArrayList<Carta> cartasEnMano = new ArrayList<Carta>();
+        Mano mano = new Mano(baraja, 10);
 
         for (int i = 0; i < 10; i++) {
-            cartasEnMano.add(baraja.sacarCarta());
-        }
-
-        for (int i = 0; i < 10; i++) {
-            System.out.println(cartasEnMano.get(i));
+            System.out.println(mano.cartas.get(i));
         }
     }
 }

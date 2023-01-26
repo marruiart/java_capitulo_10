@@ -13,11 +13,7 @@ import classes.baraja.*;
 public class Ejercicio09 {
     public static void main(String[] args) {
         Baraja baraja = new Baraja();
-        Mano mano = new Mano();
-
-        for (int i = 0; i < 10; i++) {
-            mano.cartas.add(baraja.sacarCarta());
-        }
+        Mano mano = new Mano(baraja, 10);
 
         mano.ordenarMano();
         for (Carta c : mano.cartas) {

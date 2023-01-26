@@ -11,14 +11,6 @@ public class Carta {
     public Carta(Numeros numero, Palos palo) {
         this.numero = numero;
         this.palo = palo;
-        this.puntos = switch (numero.toString()) {
-            case "AS" -> 11;
-            case "TRES" -> 10;
-            case "SOTA" -> 2;
-            case "CABALLO" -> 3;
-            case "REY" -> 4;
-            default -> 0;
-        };
     }
 
     public String getNumero() {
@@ -31,6 +23,10 @@ public class Carta {
 
     public Integer getPuntos() {
         return puntos;
+    }
+
+    public void setPuntos(int p) {
+        this.puntos = p;
     }
 
     public static Comparator<Carta> comparar() {

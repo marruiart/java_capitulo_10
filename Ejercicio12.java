@@ -22,9 +22,10 @@ public class Ejercicio12 {
     public static void main(String[] args) {
         HashMap<String, Integer> cartas = new HashMap<String, Integer>();
         Baraja baraja = new Baraja();
+        Brisca brisca = new Brisca(baraja);
+        Mano mano = brisca.obtenerMano();
         int puntos = 0;
-        for (int i = 0; i < 5; i++) {
-            Carta c = baraja.sacarCarta();
+        for (Carta c : mano.cartas) {
             int p = c.getPuntos();
             puntos += p;
             cartas.put(c.getNumero(), p);

@@ -4,7 +4,7 @@ import java.util.*;
 import enums.Enums.*;
 
 public class Baraja {
-    private ArrayList<Carta> mazo = new ArrayList<Carta>();
+    public ArrayList<Carta> mazo = new ArrayList<Carta>();
 
     public Baraja() {
         Palos[] palos = Palos.values();
