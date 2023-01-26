@@ -1,6 +1,8 @@
 import java.util.HashMap;
 import java.util.Scanner;
 
+import classes.Paises;
+
 /**
  * Realiza un programa que sepa decir la capital de un país (en caso de conocer
  * la respuesta) y que, además, sea capaz de aprender nuevas capitales. En
@@ -16,25 +18,24 @@ import java.util.Scanner;
 public class Ejercicio16 {
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
-        HashMap<String, String> capitales = new HashMap<String, String>();
-        String r;
-        capitales.put("Espana", "Madrid");
-        capitales.put("Portugal", "Lisboa");
-        capitales.put("Francia", "París");
+        Paises paises = new Paises();
+        String pais;
 
         do {
             System.out.print("Escribe el nombre de un país y te diré su capital: ");
-            r = s.next();
-            if (!r.equals("salir")) {
-                if (capitales.containsKey(r))
-                    System.out.printf("La capital de %s es %s\n", r, capitales.get(r));
+            pais = s.nextLine();
+            if (!pais.equals("salir")) {
+                String capital = paises.getCapital(pais);
+                if (capital != null)
+                    System.out.printf("La capital de %s es %s\n", pais, paises.capitales.get(pais));
                 else {
                     System.out.print("No conozco la respuesta ¿cuál es la capital de Alemania? ");
-                    capitales.put(r, s.next());
+                    capital = s.nextLine();
+                    paises.agregar(pais, capital);
                     System.out.println("Gracias por enseñarme nuevas capitales");
                 }
             }
-        } while (!r.equals("salir"));
+        } while (!pais.equals("salir"));
         s.close();
     }
 }
