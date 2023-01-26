@@ -1,33 +1,42 @@
 package classes.baraja;
 
-import java.util.ArrayList;
+import java.util.*;
 import enums.Enums.*;
 
 public class Baraja {
-    private ArrayList<Carta> baraja = new ArrayList<Carta>();
+    private ArrayList<Carta> mazo = new ArrayList<Carta>();
 
     public Baraja() {
         Palos[] palos = Palos.values();
         Numeros[] numeros = Numeros.values();
         for (Palos p : palos) {
             for (Numeros n : numeros) {
-                baraja.add(new Carta(n, p));
+                mazo.add(new Carta(n, p));
             }
         }
+        barajar();
     }
 
     public Carta sacarCarta() {
-        int n = (int) (Math.random() * baraja.size());
-        Carta carta = baraja.get(n);
-        baraja.remove(n);
+        int n = (int) (Math.random() * mazo.size());
+        Carta carta = mazo.remove(n);
+        return carta;
+    }
+
+    public Carta sacarPrimeraCarta() {
+        Carta carta = mazo.remove(0);
         return carta;
     }
 
     public void devolverCarta(Carta carta) {
-        devolverCarta(baraja.size(), carta);
+        devolverCarta(mazo.size(), carta);
+    }
+
+    public void barajar() {
+        Collections.shuffle(mazo);
     }
 
     public void devolverCarta(int posicion, Carta carta) {
-        baraja.add(posicion, carta);
+        mazo.add(posicion, carta);
     }
 }

@@ -55,4 +55,9 @@ public class Disco {
                 "------------------------------------------\n",
                 this.codigo, this.autor, this.titulo, this.genero, this.duracion);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.getClass().equals(obj.getClass()) && (this.codigo).equals(((Disco) obj).getCodigo());
+    }
 }

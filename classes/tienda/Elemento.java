@@ -26,4 +26,19 @@ public class Elemento {
     public int getUnidades() {
         return this.unidades;
     }
+
+    public void setUnidades(int cantidad) {
+        this.unidades += cantidad;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return (obj.getClass() == this.getClass() && this.nombre.equals(((Elemento) obj).getNombre()));
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s PVP: %.2f Unidades: %d Subtotal: %.2f\n",
+                this.nombre, this.precio, this.unidades, this.precio * this.unidades);
+    }
 }

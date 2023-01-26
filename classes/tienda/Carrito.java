@@ -5,6 +5,10 @@ import java.util.ArrayList;
 public class Carrito {
     private ArrayList<Elemento> lista = new ArrayList<Elemento>();
 
+    public Carrito() {
+
+    }
+
     public Elemento agrega(Elemento e) {
         lista.add(e);
         return e;
@@ -14,10 +18,17 @@ public class Carrito {
         return lista.size();
     }
 
+    public int numeroDeUnidades() {
+        int cantidad = 0;
+        for (Elemento e : lista)
+            cantidad += e.getUnidades();
+        return cantidad;
+    }
+
     public double importeTotal() {
         double importeTotal = 0;
-        for (int i = 0; i < this.numeroDeElementos(); i++) {
-            importeTotal += (lista.get(i).getPrecio() * lista.get(i).getUnidades());
+        for (Elemento e : lista) {
+            importeTotal += (e.getPrecio() * e.getUnidades());
         }
         return importeTotal;
     }
@@ -26,11 +37,8 @@ public class Carrito {
     public String toString() {
         String carrito = "Contenido del carrito\n" +
                 "=====================\n";
-        // concatenar cada e del carrito
-        for (int i = 0; i < this.numeroDeElementos(); i++) {
-            carrito += String.format("%s PVP: %.2f Unidades: %d Subtotal: %.2f\n", lista.get(i).getNombre(),
-                    lista.get(i).getPrecio(), lista.get(i).getUnidades(),
-                    lista.get(i).getPrecio() * lista.get(i).getUnidades());
+        for (Elemento e : lista) {
+            carrito += e;
         }
         return carrito;
     }
