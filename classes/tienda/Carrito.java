@@ -10,7 +10,12 @@ public class Carrito {
     }
 
     public Elemento agrega(Elemento e) {
-        lista.add(e);
+        if (lista.contains(e)) {
+            Elemento l = lista.get(lista.indexOf(e));
+            l.setUnidades(e.getUnidades());
+        } else {
+            lista.add(e);
+        }
         return e;
     }
 
