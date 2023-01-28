@@ -1,4 +1,3 @@
-import java.util.*;
 
 /**
  * Realiza un buscador de sinónimos. Utiliza el diccionario español-inglés que
@@ -17,6 +16,8 @@ import java.util.*;
  * 
  * @author: Marina Ruiz Artacho
  */
+
+import java.util.*;
 
 public class Ejercicio19 {
 
@@ -47,7 +48,7 @@ public class Ejercicio19 {
                     System.out.println("No conozco sinónimos de esa palabra");
                 else {
                     sinonimos = sinonimos.substring(0, (sinonimos.length() - 2));
-                    System.out.print("Sinónimos de caliente: " + sinonimos + "\n");
+                    System.out.print(String.format("Sinónimos de %s: %s\n", p, sinonimos));
                 }
             } else if (!p.equals("salir"))
                 System.out.println("No conozco esa palabra");
