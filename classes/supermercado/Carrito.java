@@ -6,6 +6,7 @@ import exceptions.*;
 public class Carrito {
     private Supermercado supermercado;
     private ArrayList<Producto> lista = new ArrayList<>();
+    private boolean descuento = false;
 
     public Carrito(Supermercado supermercado) {
         this.supermercado = supermercado;
@@ -31,14 +32,25 @@ public class Carrito {
         return total;
     }
 
+    public void setDescuento(String dto) {
+        if (dto.equals("ECODTO"))
+            this.descuento = true;
+    }
+
     @Override
     public String toString() {
+        double dto = 0;
         String ticket = ("Producto Precio Cantidad Subtotal\n" +
                 "--------------------------------\n");
         for (Producto p : lista)
             ticket += p + "\n";
+        if (this.descuento) {
+            dto = this.precioTotal() * 0.10;
+            ticket += String.format("--------------------------------\n" +
+                    "Descuento: %.2f euros\n", dto);
+        }
         ticket += String.format("--------------------------------\n" +
-                "TOTAL: %.2f euros", this.precioTotal());
+                "TOTAL: %.2f euros", this.precioTotal() - dto);
         return ticket;
     }
 
