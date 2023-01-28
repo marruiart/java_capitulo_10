@@ -1,7 +1,3 @@
-import java.util.Scanner;
-
-import classes.supermercado.*;
-import exceptions.productNotAvailable;
 
 /**
  * Un supermercado de productos ecológicos nos ha pedido hacer un programa para
@@ -25,6 +21,10 @@ import exceptions.productNotAvailable;
  * 
  * @author: Marina Ruiz Artacho
  */
+
+import java.util.Scanner;
+import classes.supermercado.*;
+import exceptions.productNotAvailable;
 
 public class Ejercicio14 {
     public static void main(String[] args) {
