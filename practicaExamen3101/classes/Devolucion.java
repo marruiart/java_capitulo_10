@@ -39,10 +39,13 @@ public class Devolucion {
     public Articulo devolverArticulos(String codigo, int cantidad)
             throws notEnoughArticlesException, stockNotFoundException, articleIsNullException,
             CloneNotSupportedException {
-        Articulo a = (Articulo) articulosComprados.filtraArticulo(codigo).clone();
-        a.setUnidades(cantidad);
-        articulos.add(a);
-        return a;
+        Articulo a = articulosComprados.filtraArticulo(codigo);
+        if (a == null || a.getUnidades() < cantidad)
+            throw new notEnoughArticlesException("Esos artículos no están en este ticket de compra.");
+        Articulo clon = (Articulo) a.clone();
+        clon.setUnidades(cantidad);
+        articulos.add(clon);
+        return clon;
     }
 
     public String finalizarDevolucion()
