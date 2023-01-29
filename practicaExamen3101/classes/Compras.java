@@ -7,10 +7,11 @@ public class Compras extends Almacen {
     protected static HashMap<String, Carrito> compras = new HashMap<>();
 
     private Compras(Carrito carrito) throws stockNotFoundException, notEnoughArticlesException {
-        compras.put(carrito.getCodigo(), carrito);
+        Almacen almacen = carrito.getTienda();
         for (Articulo a : carrito.getCompra()) {
-            (carrito.getTienda()).sacarStock(a.getCodigo(), a.getUnidades());
+            almacen.sacarStock(a.getCodigo(), a.getUnidades());
         }
+        compras.put(carrito.getCodigo(), carrito);
     }
 
     public static Integer numeroCompras() {
@@ -23,8 +24,12 @@ public class Compras extends Almacen {
         return ticket;
     }
 
-    public static void hacerCompra(Carrito carrito) throws stockNotFoundException, notEnoughArticlesException {
-        new Compras(carrito);
+    public static void hacerCompra(Carrito carrito)
+            throws stockNotFoundException, notEnoughArticlesException, articleNotSoldException {
+        if (!carrito.getCompra().isEmpty())
+            new Compras(carrito);
+        else
+            throw new articleNotSoldException("El carrito está vacío.");
     }
 
     public static String getCodigoCompra(Carrito c) throws articleNotSoldException {

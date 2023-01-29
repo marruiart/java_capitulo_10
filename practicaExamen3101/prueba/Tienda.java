@@ -147,32 +147,32 @@ public class Tienda {
         Carrito carrito = new Carrito(almacen);
         int r;
         String codigo;
-        int cantidad;
         try {
             do {
                 imprimirMenuConsulta();
                 r = Integer.parseInt(s.nextLine());
                 switch (r) {
                     case 1:
-                        System.out.println(carrito.getTienda().consultarStock());
+                        System.out.println(carrito.getTienda().consultarArticulos());
                         break;
                     case 2:
                         System.out.print("Introduzca el nombre del artículo: ");
-                        System.out.println(carrito.getTienda().consultarStock(almacen.filtrarPorNombre(s.nextLine())));
+                        System.out.println(
+                                carrito.getTienda().consultarArticulos(almacen.filtrarPorNombre(s.nextLine())));
                         break;
                     case 3:
-                        System.out.println(carrito.getTienda().consultarStock(almacen.ordenarPrecioAscendente()));
+                        System.out.println(carrito.getTienda().consultarArticulos(almacen.ordenarPrecioAscendente()));
                         break;
                     case 4:
-                        System.out.println(carrito.getTienda().consultarStock(almacen.ordenarAZ()));
+                        System.out.println(carrito.getTienda().consultarArticulos(almacen.ordenarAZ()));
                         break;
                     case 5:
-                        System.out.println(carrito.getTienda().consultarStock(almacen.ordenarZA()));
+                        System.out.println(carrito.getTienda().consultarArticulos(almacen.ordenarZA()));
                         break;
                     case 6:
                         System.out.print("Código del producto: ");
                         codigo = s.nextLine();
-                        Articulo a = carrito.getTienda().consultarStockArticulo(codigo);
+                        Articulo a = carrito.getTienda().consultarArticulo(codigo);
                         System.out.println(String.format("\nDisponemos de : %d ud de %s (%.2f euros/ud)",
                                 a.getUnidades(), a.getNombre(), a.getPrecio()));
                         break;
@@ -211,7 +211,11 @@ public class Tienda {
                         codigo = s.nextLine();
                         System.out.print("Cantidad: ");
                         cantidad = Integer.parseInt(s.nextLine());
-                        System.out.println("\nArticulo añadido: " + carrito.agregarArticulos(codigo, cantidad));
+                        try {
+                            System.out.println("\nArticulo añadido: " + carrito.agregarArticulos(codigo, cantidad));
+                        } catch (notEnoughArticlesException nea) {
+                            System.out.println(nea.getMessage());
+                        }
                         break;
                     case 2:
                         System.out.print("Código del producto: ");
@@ -224,8 +228,7 @@ public class Tienda {
                         realizarConsulta(almacen);
                         break;
                     case 4:
-                        System.out.println("Gracias por su compra, aquí tiene su ticket.");
-                        carrito.finalizarCompra();
+                    carrito.finalizarCompra();
                         break;
                     default:
                         System.out.println("Volviendo al menú principal...");

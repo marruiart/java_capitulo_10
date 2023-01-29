@@ -50,21 +50,26 @@ public class Carrito extends Almacen {
         }
     }
 
-    public Articulo agregarArticulo(String codigo) throws stockNotFoundException, articleIsNullException {
+    public Articulo agregarArticulo(String codigo)
+            throws stockNotFoundException, articleIsNullException, notEnoughArticlesException {
         return agregarArticulos(codigo, 1);
     }
 
     public Articulo agregarArticulos(String codigo, int cantidad)
-            throws stockNotFoundException, articleIsNullException {
-        Articulo a = filtraArticulo(codigo);
-        if (compra.contains(a)) {
-            a.addUnidades(cantidad);
+            throws stockNotFoundException, articleIsNullException, notEnoughArticlesException {
+        if (TIENDA.consultarStock(codigo) >= cantidad) {
+            Articulo a = filtraArticulo(codigo);
+            if (compra.contains(a)) {
+                a.addUnidades(cantidad);
+            } else {
+                a = new Articulo(codigo, TIENDA.buscarArticulo(codigo).getNombre(),
+                        TIENDA.buscarArticulo(codigo).getPrecio(), cantidad);
+                compra.add(a);
+            }
+            return a;
         } else {
-            a = new Articulo(codigo, TIENDA.buscarArticulo(codigo).getNombre(),
-                    TIENDA.buscarArticulo(codigo).getPrecio(), cantidad);
-            compra.add(a);
+            throw new notEnoughArticlesException("No hay suficiente stock del artículo " + codigo);
         }
-        return a;
     }
 
     public Articulo eliminarDelCarrito(String codigo)
@@ -89,12 +94,17 @@ public class Carrito extends Almacen {
         return aux;
     }
 
-    public void finalizarCompra() throws stockNotFoundException, notEnoughArticlesException {
+    public void finalizarCompra() throws stockNotFoundException, notEnoughArticlesException, articleNotSoldException {
         this.horaCompra = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
         Integer n = Compras.numeroCompras() == null ? 1 : Compras.numeroCompras() + 1;
         numeroTicket = TIENDA.generarCodigo(n.toString());
-        Compras.hacerCompra(this);
-        Compras.imprimirTicket(this);
+        try {
+            Compras.hacerCompra(this);
+            System.out.println("Gracias por su compra, aquí tiene su ticket.");
+            Compras.imprimirTicket(this);
+        } catch (articleNotSoldException ans) {
+            System.out.println(ans.getMessage());
+        }
     }
 
     @Override

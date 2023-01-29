@@ -39,10 +39,12 @@ public class Almacen {
             throws stockNotFoundException, notEnoughArticlesException {
         try {
             Articulo art = buscarArticulo(codigo);
-            if (art.getUnidades() - cantidad < 0)
-                throw new notEnoughArticlesException("\nNo hay suficiente stock en el almacén.");
-            art.removeUnidades(cantidad);
-            return art;
+            if (consultarStock(codigo) < cantidad)
+                throw new notEnoughArticlesException("\nNo hay suficiente stock en el almacén de algunos artículos");
+            else {
+                art.removeUnidades(cantidad);
+                return art;
+            }
         } catch (stockNotFoundException snf) {
             throw snf;
         }
@@ -101,14 +103,18 @@ public class Almacen {
         return articulos;
     }
 
-    public Articulo consultarStockArticulo(String codigo) throws stockNotFoundException {
+    public Articulo consultarArticulo(String codigo) throws stockNotFoundException {
         Articulo art = this.buscarArticulo(codigo);
         if (art == null || art.getUnidades() == 0)
             throw new stockNotFoundException("\nEl artículo no se encuentra en el almacén.");
         return art;
     }
 
-    public String consultarStock(ArrayList<Articulo> articulos) throws stockNotFoundException {
+    public int consultarStock(String codigo) throws stockNotFoundException {
+        return buscarArticulo(codigo).getUnidades();
+    }
+
+    public String consultarArticulos(ArrayList<Articulo> articulos) throws stockNotFoundException {
         String stockAlmacen = "\nSTOCK EN ALMACÉN\n==============================================================================================================================\n";
         for (Articulo a : articulos) {
             stockAlmacen += a + "\n";
@@ -116,8 +122,8 @@ public class Almacen {
         return stockAlmacen;
     }
 
-    public String consultarStock() throws stockNotFoundException {
-        return consultarStock(listadoArticulos());
+    public String consultarArticulos() throws stockNotFoundException {
+        return consultarArticulos(listadoArticulos());
     }
 
     @Override
