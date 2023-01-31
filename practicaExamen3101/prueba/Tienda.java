@@ -7,11 +7,11 @@ import java.util.*;
 public class Tienda {
     private static Scanner s = new Scanner(System.in);
 
-    public static void generarStock(Almacen almacen) {
-        String codigo = "";
-        String nombre = "";
-        double precio = 0;
-        int unidades = 0;
+    public static void generarStock(Store store) throws alreadyExistsException {
+        String code = "";
+        String name = "";
+        double price = 0;
+        int units = 0;
         String[][] productos = {
                 { "8938422118", "Wine - Merlot Vina Carmen", "14.11", "128" },
                 { "8272082840", "Eggs - Extra Large", "7.21", "659" },
@@ -117,15 +117,15 @@ public class Tienda {
         for (int i = 0; i < productos.length; i++) {
             for (int j = 0; j < productos[i].length; j++) {
                 switch (j) {
-                    case 0 -> codigo = productos[i][j];
-                    case 1 -> nombre = productos[i][j];
-                    case 2 -> precio = Double.parseDouble(productos[i][j]);
-                    case 3 -> unidades = Integer.parseInt(productos[i][j]);
+                    case 0 -> code = productos[i][j];
+                    case 1 -> name = productos[i][j];
+                    case 2 -> price = Double.parseDouble(productos[i][j]);
+                    case 3 -> units = Integer.parseInt(productos[i][j]);
                 }
             }
             try {
-                almacen.agregarStock(new Articulo(codigo, nombre, precio, unidades));
-            } catch (articleIsNullException sin) {
+                store.addItemToStock(new Item(code, name, price, units));
+            } catch (nullException sin) {
                 System.out.println(sin.getMessage());
             }
         }
@@ -135,46 +135,46 @@ public class Tienda {
         System.out.println("\n¿Qué desea consultar?");
         System.out.println("1. Listar todos los productos");
         System.out.println("2. Filtrar productos por nombre");
-        System.out.println("3. Ordenar por precio ascendente");
+        System.out.println("3. Ordenar por price ascendente");
         System.out.println("4. Ordenar de A a Z");
         System.out.println("5. Ordenar de Z a A");
         System.out.println("6. Consultar si disponemos de un producto");
         System.out.println("7. Salir");
     }
 
-    public static void realizarConsulta(Almacen almacen)
-            throws stockNotFoundException, articleIsNullException, notEnoughArticlesException {
-        Carrito carrito = new Carrito(almacen);
+    public static void realizarConsulta(Store store)
+            throws stockNotFoundException, nullException, notEnoughQuantityException {
+        Purchase carrito = new Purchase(store);
         int r;
-        String codigo;
+        String code;
         try {
             do {
                 imprimirMenuConsulta();
                 r = Integer.parseInt(s.nextLine());
                 switch (r) {
                     case 1:
-                        System.out.println(carrito.getTienda().consultarArticulos());
+                        System.out.println(carrito.getStore().getAllItems());
                         break;
                     case 2:
-                        System.out.print("Introduzca el nombre del artículo: ");
+                        System.out.print("Introduzca el name del artículo: ");
                         System.out.println(
-                                carrito.getTienda().consultarArticulos(almacen.filtrarPorNombre(s.nextLine())));
+                                carrito.getStore().filterByName(s.nextLine()));
                         break;
                     case 3:
-                        System.out.println(carrito.getTienda().consultarArticulos(almacen.ordenarPrecioAscendente()));
+                        System.out.println(carrito.getStore().orderPriceAsc());
                         break;
                     case 4:
-                        System.out.println(carrito.getTienda().consultarArticulos(almacen.ordenarAZ()));
+                        System.out.println(carrito.getStore().orderNameAsc());
                         break;
                     case 5:
-                        System.out.println(carrito.getTienda().consultarArticulos(almacen.ordenarZA()));
+                        System.out.println(carrito.getStore().orderNameDes());
                         break;
                     case 6:
                         System.out.print("Código del producto: ");
-                        codigo = s.nextLine();
-                        Articulo a = carrito.getTienda().consultarArticulo(codigo);
+                        code = s.nextLine();
+                        Item a = carrito.getStore().getItem(code);
                         System.out.println(String.format("\nDisponemos de : %d ud de %s (%.2f euros/ud)",
-                                a.getUnidades(), a.getNombre(), a.getPrecio()));
+                                a.getUnits(), a.getName(), a.getPrice()));
                         break;
                     default:
                         System.out.println("Volviendo al menú principal...");
@@ -195,11 +195,11 @@ public class Tienda {
         System.out.println("5. Salir");
     }
 
-    public static void realizarCompra(Almacen almacen)
-            throws stockNotFoundException, articleIsNullException, notEnoughArticlesException {
-        Carrito carrito = new Carrito(almacen);
+    public static void realizarCompra(Store store)
+            throws stockNotFoundException, nullException, notEnoughQuantityException {
+        Purchase carrito = new Purchase(store);
         int r;
-        String codigo;
+        String code;
         int cantidad;
         try {
             do {
@@ -208,27 +208,27 @@ public class Tienda {
                 switch (r) {
                     case 1:
                         System.out.print("Código del producto: ");
-                        codigo = s.nextLine();
+                        code = s.nextLine();
                         System.out.print("Cantidad: ");
                         cantidad = Integer.parseInt(s.nextLine());
                         try {
-                            System.out.println("\nArticulo añadido: " + carrito.agregarArticulos(codigo, cantidad));
-                        } catch (notEnoughArticlesException nea) {
+                            System.out.println("\nArticulo añadido\n" + carrito.addItemsToCart(code, cantidad));
+                        } catch (notEnoughQuantityException nea) {
                             System.out.println(nea.getMessage());
                         }
                         break;
                     case 2:
                         System.out.print("Código del producto: ");
-                        codigo = s.nextLine();
+                        code = s.nextLine();
                         System.out.print("Cantidad: ");
                         cantidad = Integer.parseInt(s.nextLine());
-                        System.out.println("\nArticulo eliminado: " + carrito.eliminarDelCarrito(codigo, cantidad));
+                        System.out.println("\nArticulo eliminado\n" + carrito.removeItemsFromCart(code, cantidad));
                         break;
                     case 3:
-                        realizarConsulta(almacen);
+                        realizarConsulta(store);
                         break;
                     case 4:
-                    carrito.finalizarCompra();
+                        System.out.println(carrito.finishPurchase());
                         break;
                     default:
                         System.out.println("Volviendo al menú principal...");
@@ -248,32 +248,32 @@ public class Tienda {
         System.out.println("4. Salir");
     }
 
-    public static void realizarDevolucion() throws articleNotSoldException {
+    public static void realizarDevolucion(Store store) throws notSoldException {
         int r;
         String ticket;
-        String codigo;
+        String code;
         int cantidad;
         System.out.print("Introduzca el código del ticket de compra: ");
         try {
             ticket = s.nextLine();
-            Devolucion devolucion = new Devolucion(ticket);
+            Return devolucion = new Return(store, ticket);
             do {
                 imprimirMenuDevolución();
                 r = Integer.parseInt(s.nextLine());
                 switch (r) {
                     case 1:
                         System.out.print("Código del producto: ");
-                        codigo = s.nextLine();
+                        code = s.nextLine();
                         System.out.print("Cantidad: ");
                         cantidad = Integer.parseInt(s.nextLine());
-                        System.out.println("\nArticulo devuelto: " + devolucion.devolverArticulos(codigo, cantidad));
+                        System.out.println("\nArticulo devuelto: " + devolucion.addItemsToReturnCart(code, cantidad));
                         break;
                     case 2:
-                        System.out.println(devolucion.consultarTicket());
+                        System.out.println(devolucion.getAssociatedPurchase());
                         break;
                     case 3:
                         System.out.println("Muchas gracias, aquí tiene su ticket de devolución.");
-                        System.out.println(devolucion.finalizarDevolucion());
+                        System.out.println(devolucion.finishReturn());
                         break;
                     default:
                         System.out.println("Volviendo al menú principal...");
@@ -285,25 +285,25 @@ public class Tienda {
         }
     }
 
-    private static void imprimirMenuDatosAlmacen() {
+    private static void imprimirMenuDatosStore() {
         System.out.println("\nEstá usted devolviendo productos ¿Qué desea?");
         System.out.println("1. Consultar todas las compras");
         System.out.println("2. Consultar todas las devoluciones");
         System.out.println("3. Salir");
     }
 
-    public static void consultarDatosAlmacen(Almacen almacen) {
+    public static void consultarDatosStore(Store store) {
         System.out.print("Introduzca la contraseña del administrador: ");
         String pass = s.nextLine();
         int r;
         try {
             if (pass.equals("1234")) {
                 do {
-                    imprimirMenuDatosAlmacen();
+                    imprimirMenuDatosStore();
                     r = Integer.parseInt(s.nextLine());
                     switch (r) {
-                        case 1 -> Compras.imprimirCompras();
-                        case 2 -> Devoluciones.imprimirDevoluciones();
+                        case 1 -> store.printPurchases();
+                        case 2 -> store.printReturns();
                         default -> System.out.println("Volviendo al menú principal...");
                     }
 
@@ -324,17 +324,18 @@ public class Tienda {
     }
 
     public static void main(String[] args)
-            throws stockNotFoundException, notEnoughArticlesException, articleIsNullException, articleNotSoldException {
-        Almacen almacen = new Almacen();
+            throws stockNotFoundException, notEnoughQuantityException, nullException, notSoldException,
+            alreadyExistsException {
+        Store store = new Store();
         int r;
-        generarStock(almacen);
+        generarStock(store);
         do {
             imprimirMenu();
             r = Integer.parseInt(s.nextLine());
             switch (r) {
-                case 1 -> realizarCompra(almacen);
-                case 2 -> realizarDevolucion();
-                case 3 -> consultarDatosAlmacen(almacen);
+                case 1 -> realizarCompra(store);
+                case 2 -> realizarDevolucion(store);
+                case 3 -> consultarDatosStore(store);
                 default -> System.out.println("Muchas gracias, adiós.");
             }
 
