@@ -237,15 +237,13 @@ public class Store {
         ArrayList<Item> articulos = getAllItems();
         if (articulos.isEmpty())
             throw new stockNotFoundException("\nNo se han encontrado artículos en el almacén.");
-        Collections.sort(articulos, Item.priceComparator);
+        Collections.sort(articulos, (a1, a2) -> a1.getPrice().compareTo(a2.getPrice()));
         return articulos;
     }
 
-    public ArrayList<Item> orderPriceDec() throws stockNotFoundException {
-        ArrayList<Item> articulos = getAllItems();
-        if (articulos.isEmpty())
-            throw new stockNotFoundException("\nNo se han encontrado artículos en el almacén.");
-        Collections.sort(articulos, Item.priceComparator.reversed());
+    public ArrayList<Item> orderPriceDes() throws stockNotFoundException {
+        ArrayList<Item> articulos = orderPriceAsc();
+        Collections.sort(articulos, Collections.reverseOrder());
         return articulos;
     }
 

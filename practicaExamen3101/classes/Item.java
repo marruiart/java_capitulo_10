@@ -1,20 +1,12 @@
 package classes;
 
-import java.util.Comparator;
 import exceptions.*;
 
-public class Item implements Cloneable, Comparable<Item> {
+public class Item implements Comparable<Item> {
     private String code;
     private String name;
     private Double price;
-    private int units;
-    public static Comparator<Item> priceComparator = new Comparator<Item>() {
-        public int compare(Item a1, Item a2) {
-            Double priceA1 = a1.getPrice();
-            Double priceA2 = a2.getPrice();
-            return priceA1.compareTo(priceA2);
-        }
-    };
+    private int units;  
 
     public Item(String code) {
         this(code, null, null, 0);
@@ -62,11 +54,6 @@ public class Item implements Cloneable, Comparable<Item> {
     }
 
     @Override
-    protected Item clone() throws CloneNotSupportedException {
-        return new Item(this.code, this.name, this.price, this.units);
-    }
-
-    @Override
     public int compareTo(Item a) {
         return (this.getName()).compareTo(a.getName());
     }
@@ -78,8 +65,8 @@ public class Item implements Cloneable, Comparable<Item> {
 
     @Override
     public String toString() {
-        return String.format("   | %s - %-32s %-8.2f|\n     (%4d ud x %-5.2f EUR/ud)",
-                code, name, price * units, units, price);
+        return String.format("   | %s - %-32s (%4d ud x %-5.2f EUR/ud)    %-8.2f|\n",
+                code, name, units, price, price * units);
     }
 
 }
