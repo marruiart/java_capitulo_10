@@ -123,7 +123,7 @@ public class Return {
         devolucion += "--------------------------------------------------------------------------------------------\n";
         for (Item a : itemsToReturn) {
             this.returnedAmount += (a.getPrice() * a.getUnits());
-            devolucion += a + "\n";
+            devolucion += a;
         }
         devolucion += "--------------------------------------------------------------------------------------------\n";
         devolucion += String.format("%70s  TOTAL: -%.2f euros ", "", this.returnedAmount);

@@ -65,7 +65,7 @@ public class Item implements Comparable<Item> {
 
     @Override
     public String toString() {
-        return String.format("   | %s - %-32s (%4d ud x %-5.2f EUR/ud)    %-8.2f|\n",
+        return String.format("   | %s - %-32s (%4d ud x %-5.2f EUR/ud )    %-8.2f EUR |",
                 code, name, units, price, price * units);
     }
 

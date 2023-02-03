@@ -210,41 +210,27 @@ public class Store {
     }
 
     public ArrayList<Item> filterByName(String name) throws stockNotFoundException {
-        ArrayList<Item> articulos = getAllItems();
-        if (articulos.isEmpty())
-            throw new stockNotFoundException("\nNo se han encontrado artículos en el almacén.");
-        articulos.removeIf(item -> !item.getName().startsWith(name));
-        return articulos;
+        return Filter.filter(getAllItems(), item -> !item.getName().startsWith(name));
+    }
+
+    public ArrayList<Item> filterByPrice(double min, double max) throws stockNotFoundException {
+        return Filter.filter(getAllItems(), item -> !(item.getPrice() >= min && item.getPrice() <= max));
     }
 
     public ArrayList<Item> orderNameAsc() throws stockNotFoundException {
-        ArrayList<Item> articulos = getAllItems();
-        if (articulos.isEmpty())
-            throw new stockNotFoundException("\nNo se han encontrado artículos en el almacén.");
-        Collections.sort(articulos);
-        return articulos;
+        return Order.orderList(getAllItems(), (a1, a2) -> a1.getName().compareTo(a2.getName()));
     }
 
     public ArrayList<Item> orderNameDes() throws stockNotFoundException {
-        ArrayList<Item> articulos = getAllItems();
-        if (articulos.isEmpty())
-            throw new stockNotFoundException("\nNo se han encontrado artículos en el almacén.");
-        Collections.sort(articulos, Collections.reverseOrder());
-        return articulos;
+        return Order.orderList(getAllItems(), (a1, a2) -> a2.getName().compareTo(a1.getName()));
     }
 
     public ArrayList<Item> orderPriceAsc() throws stockNotFoundException {
-        ArrayList<Item> articulos = getAllItems();
-        if (articulos.isEmpty())
-            throw new stockNotFoundException("\nNo se han encontrado artículos en el almacén.");
-        Collections.sort(articulos, (a1, a2) -> a1.getPrice().compareTo(a2.getPrice()));
-        return articulos;
+        return Order.orderList(getAllItems(), (a1, a2) -> a1.getPrice().compareTo(a2.getPrice()));
     }
 
     public ArrayList<Item> orderPriceDes() throws stockNotFoundException {
-        ArrayList<Item> articulos = orderPriceAsc();
-        Collections.sort(articulos, Collections.reverseOrder());
-        return articulos;
+        return Order.orderList(getAllItems(), (a1, a2) -> a2.getPrice().compareTo(a1.getPrice()));
     }
 
     @Override

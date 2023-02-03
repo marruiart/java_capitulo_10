@@ -124,7 +124,7 @@ public class Purchase {
         str += "--------------------------------------------------------------------------------------------\n";
         for (Item item : cart) {
             this.amount += (item.getPrice() * item.getUnits());
-            str += item + "\n";
+            str += item;
         }
         str += "--------------------------------------------------------------------------------------------\n";
         str += String.format("%60s  IMPORTE TOTAL: %.2f euros ", "", this.amount);
